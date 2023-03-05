@@ -68,3 +68,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### `cd server` followed by `node server.js` will start the connection to MongoDB Atlas.
+
+In the `server` directory, there is a file called `example.config.env`.
+Save a copy of this file in the same directory; name it `config.env`.
+In the newly saved `config.env` file, add your username and password strings to the relevant portion of the ATLAS_URI environment variable.
