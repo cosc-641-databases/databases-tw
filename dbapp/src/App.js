@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header';
+import Spots from './components/Spots';
+import Search from './components/Search';
+import Account from './components/Account';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Starting point for our Databases II project
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Header user="Bob"/>
+      <Spots/>
+      <Spots title = 'Your Previously Viewed Spots'/>
+      <Search />
+      <Account title="Your Personal Information"/>
+      <Account title="Your Saved Places"/>
+      <div className="forms">
+        <Login />
+        <Register />
+      </div>
     </div>
   );
 }
