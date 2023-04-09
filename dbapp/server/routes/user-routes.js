@@ -16,14 +16,6 @@ router.post('/register',
 );
 
 // The /login page.
-router.post('/login',
-  [
-    check('username')
-      .not().isEmpty(),
-    check('password')
-      .not().isEmpty()
-  ],
-  userControllers.login
-);
+router.post('/login', userControllers.login);
 
 module.exports = router;

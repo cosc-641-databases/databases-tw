@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     lat: { type: Number, required: false },
     lon: { type: Number, required: false }
   },
-  settings_id: { type: Number, required: false },
   name: {
     fname: { type: String, required: false },
     lname: { type: String, required: false }

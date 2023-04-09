@@ -1,30 +1,54 @@
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const mongoose = require('mongoose');
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-// HTTP headers management.
+// HTTP headers management for CORS.
 app.use((req, res, next) => {
+  // Allow access from any origin (CORS).
   res.setHeader('Access-Control-Allow-Origin', '*');
+  // Set allowed/auto-included headers.
   res.setHeader(
     'Access-Control-Allow-Headers',
+    // 'Authorization' header will store JWT auth token.
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
+  // Specify available methods.
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
   next();
 });
 
-// Mongoose Schemas/Models.
-const User = require("./models/user");
+// Register user routes on base path.
+const userRoutes = require('./routes/user-routes');
+app.use('/', userRoutes);
 
-// Start Express server only if Mongoose can connect to MongoDB Atlas.
-mongoose.connect(process.env.ATLAS_URI)
+app.use((req, res, next) => {
+  const error = new HttpError('Could not find this route.', 404);
+  throw error;
+});
+
+app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, err => {
+      console.log(err);
+    });
+  }
+  if (res.headerSent) {
+    return next(error);
+  }
+  res.status(error.code || 500);
+  res.json({ message: error.message || 'An unknown error occurred!' });
+});
+
+// Establish connection to MongoDB Atlas via Mongoose.
+mongoose
+  .connect(process.env.ATLAS_URI)
   .then(() => {
-    // Start Express server.
     app.listen(port, async () => {
       // Uncomment to see test connection established message.
       // mongoTestConn(port);
@@ -36,10 +60,10 @@ mongoose.connect(process.env.ATLAS_URI)
     console.log(err);
   });
 
-//////////////////////
-// CONNECTION TESTS //
+////////////////////////////////
+/// MONGODB CONNECTION TESTS ///
 ////////////////////////////////////////////////////////////////
-// MongoDB.
+
 const { MongoClient } = require("mongodb");
 const uri = process.env.ATLAS_URI;
 const client = new MongoClient(uri);
