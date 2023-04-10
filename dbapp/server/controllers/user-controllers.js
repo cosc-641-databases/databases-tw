@@ -64,6 +64,9 @@ const register = async (req, res, next) => {
     return next(err);
   }
 
+  // Comment out later. Leave for now to see coordinates when registering users.
+  console.log(coords);
+
   // If registration process succeeds up to here, create new User object.
   const createdUser = new User({
     username,
