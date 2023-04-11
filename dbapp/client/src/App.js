@@ -1,4 +1,6 @@
 import './App.css';
+import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import Spots from './components/Spots';
@@ -12,8 +14,24 @@ import RegisterPage from './user/pages/RegisterPage';
 import { AuthContext } from './shared/utils/auth-context';
 import { useAuth } from './shared/utils/auth-hook';
 
+const api = {
+    key: process.env.REACT_APP_OPENWEATHER_API_KEY,
+    base: "https://api.openweathermap.org/data/2.5/"
+  };
+
 function App() {
   const { token, login, logout, userId } = useAuth();
+
+  const [search, setSearch] = useState("");
+  const [weather, setWeather] = useState({});
+
+  const searchPressed = () => {
+    fetch(`${api.base}weather?q=${search}&units=imperial&APPID=${api.key}`)
+      .then((res) => res.json())
+      .then((result) => {
+        setWeather(result);
+      });
+  };
 
   let routes;
 
@@ -24,13 +42,44 @@ function App() {
       <Switch>
         {/* Home Page */}
         <Route path="/" exact>
-          <div className="container">
-            <Header user="Bob"/>
-            <Spots/>
-            <Spots title = 'Your Previously Viewed Spots'/>
-            <Search />
-            <Account title="Your Personal Information"/>
-            <Account title="Your Saved Places"/>
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <p>
+                Starting point for our Database II project
+              </p>
+
+              <Header user="Bob"/>
+              <Spots/>
+              <Spots title = 'Your Previously Viewed Spots'/>
+              <Search />
+              <Account title="Your Personal Information"/>
+              <Account title="Your Saved Places"/>
+
+              {/* Search Bar */}
+              <input
+                type="text"
+                placeholder="Search City or State"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button onClick={searchPressed}>Search</button>
+
+              {typeof weather.main !== "undefined" ? (
+                <div>
+                  {/* Location */}
+                  <p>{weather.name}</p>
+
+                  {/* Temperature */}
+                  <p>{weather.main.temp} °F</p>
+
+                  {/* Forecast */}
+                  <p>{weather.weather[0].main}</p>
+                  <p>{weather.weather[0].description}</p>
+                </div>
+              ) : (
+                ""
+              )}
+            </header>
           </div>
         </Route>
         {/* User Login */}
@@ -51,17 +100,48 @@ function App() {
       <Switch>
         {/* Home Page */}
         <Route path="/" exact>
-          <div className="container">
-            <Header user="Your Name Here!"/>
-            <Spots/>
-            <Spots title = 'Your Previously Viewed Spots'/>
-            <Search />
-            <Account title="Your Personal Information"/>
-            <Account title="Your Saved Places"/>
-            <div className="forms">
-              <Login />
-              <Register />
-            </div>
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <p>
+                Starting point for our Database II project
+              </p>
+
+              <Header user="Bob"/>
+              <Spots/>
+              <Spots title = 'Your Previously Viewed Spots'/>
+              <Search />
+              <Account title="Your Personal Information"/>
+              <Account title="Your Saved Places"/>
+              <div className="forms">
+                <Login />
+                <Register />
+              </div>
+
+              {/* Search Bar */}
+              <input
+                type="text"
+                placeholder="Search City or State"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button onClick={searchPressed}>Search</button>
+
+              {typeof weather.main !== "undefined" ? (
+                <div>
+                  {/* Location */}
+                  <p>{weather.name}</p>
+
+                  {/* Temperature */}
+                  <p>{weather.main.temp} °F</p>
+
+                  {/* Forecast */}
+                  <p>{weather.weather[0].main}</p>
+                  <p>{weather.weather[0].description}</p>
+                </div>
+              ) : (
+                ""
+              )}
+            </header>
           </div>
         </Route>
         {/* User Login */}

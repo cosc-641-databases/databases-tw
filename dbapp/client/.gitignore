@@ -1,4 +1,5 @@
 # Do not commit env secrets!
-server/config.env
+config.env
+.env
 # Do not commit npm-generated modules.
 node_modules
