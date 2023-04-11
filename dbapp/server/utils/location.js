@@ -1,7 +1,8 @@
 const axios = require('axios');
 const HttpError = require('../models/http-error');
 require("dotenv").config({ path: "../config.env" });
-const GEOCODE_API_KEY = process.env.GEOCODE_API_KEY;
+// const GEOCODE_API_KEY = process.env.GEOCODE_API_KEY;
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 
 async function getDC() {
   // Return coordinates of Washington, DC.
@@ -36,15 +37,14 @@ async function getTokyo() {
 }
 
 // First pass at dynamic location resolver.
-///////////////////////////////////////////////////////////////////////
-// Must secure own Google Maps API key and place in config.env file. //
-///////////////////////////////////////////////////////////////////////
 async function getCoordsFromAddress(address) {
   const res = await axios.get(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GEOCODE_API_KEY}`
+    `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(address)}&limit=1&appid=${WEATHER_API_KEY}`
   );
   const data = await res.data;
-  if (!data || data.status === 'ZERO_RESULTS') {
+
+  // Error handling.
+  if (!data || data.cod == "404") {
     const error = new HttpError(
       'Could not find location for the specified address.',
       422
@@ -52,15 +52,33 @@ async function getCoordsFromAddress(address) {
     throw error;
   }
 
-  // Return Google geocode object with lat/lng values.
-  const coords = await data.results[0].geometry.location;
+  return data[0];
 
-  return coords;
+  // ALTERNATE APPROACH USING GOOGLE GEOCODE API.
+  // const res = await axios.get(
+    // Google Geocode API.
+    // `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GEOCODE_API_KEY}`
+  // );
+  // const data = await res.data;
+
+  // Error handling for Google Geocoding API.
+  // if (!data || data.status === 'ZERO_RESULTS') {
+  //   const error = new HttpError(
+  //     'Could not find location for the specified address.',
+  //     422
+  //   );
+  //   throw error;
+  // }
+
+  // Return Google geocode object with lat/lng values.
+  // const coords = await data.results[0].geometry.location;
+  // return coords;
+
 }
 
-// module.exports = getDC;
-// module.exports = getLA;
-// module.exports = getLondon;
-// module.exports = getTokyo;
+module.exports = getDC;
+module.exports = getLA;
+module.exports = getLondon;
+module.exports = getTokyo;
 module.exports = getCoordsFromAddress;
 

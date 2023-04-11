@@ -2,16 +2,17 @@ import { useState, useCallback, useEffect } from 'react';
 
 let logoutTimer;
 
+// Auth token management.
 export const useAuth = () => {
   const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
   const [userId, setUserId] = useState(false);
 
-  // Login authentication logic.
+  // Token handling upon login.
   const login = useCallback((uid, token, expirationDate) => {
     setToken(token);
     setUserId(uid);
-    // Handling token expiration.
+    // Handle token expiration (1 hour).
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
     // Storing token expiration in user's local storage.
@@ -25,7 +26,7 @@ export const useAuth = () => {
     );
   }, []);
 
-  // Logout authentication logic.
+  // Token handling upon logout.
   const logout = useCallback(() => {
     setToken(null);
     setTokenExpirationDate(null);

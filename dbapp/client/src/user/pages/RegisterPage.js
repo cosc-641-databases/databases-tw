@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../shared/utils/auth-context';
 import { useForm } from '../../shared/utils/form-hook';
-import { VALIDATOR_REQUIRE } from '../../shared/utils/validator';
+import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH } from '../../shared/utils/validator';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import Card from '../../shared/components/Card';
-import './Auth.css';
 import axios from 'axios';
+import './Auth.css';
 
 const RegisterPage = () => {
   const auth = useContext(AuthContext);
@@ -31,7 +31,11 @@ const RegisterPage = () => {
         value: '',
         isValid: false
       },
-      address: {
+      city: {
+        value: '',
+        isValid: false
+      },
+      country: {
         value: '',
         isValid: false
       }
@@ -58,11 +62,13 @@ const RegisterPage = () => {
           password: formState.inputs.password.value,
           fname: formState.inputs.fname.value,
           lname: formState.inputs.lname.value,
-          address: formState.inputs.address.value
+          city: formState.inputs.city.value,
+          country: formState.inputs.country.value
         }),
         axiosConfigs
       ).then((res) => {
-        auth.login(res.userId, res.username, res.token);
+        auth.login(res.userId, res.token);
+        // Take user to homepage.
         window.location.href="/";
       });
     } catch(err) {
@@ -114,11 +120,20 @@ const RegisterPage = () => {
           />
           <Input
             element="input"
-            id="address"
+            id="city"
             type="text"
-            label="Address"
+            label="Your City"
             validators={ [VALIDATOR_REQUIRE()] }
-            errorText="Please enter an address."
+            errorText="Please enter a city."
+            onInput={ inputHandler }
+          />
+          <Input
+            element="input"
+            id="country"
+            type="text"
+            label="Your Country Code"
+            validators={ [VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(3)] }
+            errorText="Please enter a 2-3 digit, ISO 3166 country code."
             onInput={ inputHandler }
           />
           <Button type="submit" disabled={ !formState.isValid }>

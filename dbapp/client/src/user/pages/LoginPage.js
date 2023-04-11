@@ -49,7 +49,8 @@ const LoginPage = () => {
         axiosConfigs
       ).then((res) => {
         console.log("Successfully Logged In!");
-        auth.login(res.userId, res.username, res.token);
+        auth.login(res.data.userId, res.data.token);
+        // Take user to homepage.
         window.location.href="/";
       });
     } catch(err) {

@@ -18,9 +18,9 @@ const register = async (req, res, next) => {
     );
   }
   // Assign variable values from request body.
-  const { username, password, address, fname, lname } = req.body;
+  const { username, password, city, country, fname, lname } = req.body;
 
-  // Check if user email already exists.
+  // Check if username already exists.
   let existingUser;
   try {
     existingUser = await User.findOne({ username: username });
@@ -57,6 +57,7 @@ const register = async (req, res, next) => {
 
   // Get coordinates from user input address.
   let coords;
+  let address = city + ',' + country;
   try {
     coords = await getCoordsFromAddress(address);
   } catch(err) {
@@ -74,7 +75,7 @@ const register = async (req, res, next) => {
     location: {
       // Use null coalescence (??) to return empty string if coords unset.
       lat: coords.lat ?? '',
-      lon: coords.lng ?? ''
+      lon: coords.lon ?? ''
     },
     name: {
       // Null coalesce for name values also.
@@ -122,6 +123,7 @@ const register = async (req, res, next) => {
     userId: createdUser.id,
     username: createdUser.username,
     token: token
+
   });
 
 }; // End register().
@@ -196,7 +198,6 @@ const login = async (req, res, next) => {
     );
     return next(error);
   }
-
   // If successful login, send response.
   res.json({
     userId: existingUser.id,
