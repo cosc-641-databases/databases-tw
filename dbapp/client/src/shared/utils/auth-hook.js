@@ -4,14 +4,15 @@ let logoutTimer;
 
 // Auth token management.
 export const useAuth = () => {
+  const [userId, setUserId] = useState(false);
   const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
-  const [userId, setUserId] = useState(false);
+
 
   // Token handling upon login.
   const login = useCallback((uid, token, expirationDate) => {
-    setToken(token);
     setUserId(uid);
+    setToken(token);
     // Handle token expiration (1 hour).
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
@@ -28,10 +29,11 @@ export const useAuth = () => {
 
   // Token handling upon logout.
   const logout = useCallback(() => {
+    setUserId(null);
     setToken(null);
     setTokenExpirationDate(null);
-    setUserId(null);
     localStorage.removeItem('userData');
+    window.location.href="/";
   }, []);
 
   // Handle logout timer.

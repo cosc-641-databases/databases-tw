@@ -123,7 +123,6 @@ const register = async (req, res, next) => {
     userId: createdUser.id,
     username: createdUser.username,
     token: token
-
   });
 
 }; // End register().
@@ -207,5 +206,24 @@ const login = async (req, res, next) => {
 
 }; // End login().
 
+////////////////////////////
+// HANDLE USER RETRIEVAL. //
+////////////////////////////
+const getUserById = async (req, res, next) => {
+  let userObj;
+  try {
+    // Exclude password from results.
+    userObj = await User.findOne({ _id: req.params.uid }, '-password');
+  } catch (err) {
+    const error = new HttpError(
+      'Could not retrieve user.',
+      500
+    );
+    return next(error);
+  }
+  res.json(userObj);
+};
+
 exports.register = register;
 exports.login = login;
+exports.getUserById = getUserById;

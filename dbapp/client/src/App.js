@@ -1,16 +1,12 @@
 import './App.css';
-import logo from './logo.svg';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import Header from './components/Header';
-import Spots from './components/Spots';
+import Header from './shared/components/Header';
+import Spots from './shared/components/Spots';
 import Search from './components/Search';
 import Account from './components/Account';
-import Login from './components/Login';
-import Register from './components/Register';
 import LoginPage from './user/pages/LoginPage';
 import RegisterPage from './user/pages/RegisterPage';
-
 import { AuthContext } from './shared/utils/auth-context';
 import { useAuth } from './shared/utils/auth-hook';
 
@@ -35,7 +31,7 @@ function App() {
 
   let routes;
 
-  // If token object is set (i.e., a valid user is logged in):
+  // If token object is set, a valid user is logged in.
   if (token) {
     // Set available routes by context.
     routes = (
@@ -44,19 +40,10 @@ function App() {
         <Route path="/" exact>
           <div className="App">
             <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <p>
-                Starting point for our Database II project
-              </p>
-
-              <Header user="Bob"/>
-              <Spots/>
-              <Spots title = 'Your Previously Viewed Spots'/>
-              <Search />
-              <Account title="Your Personal Information"/>
-              <Account title="Your Saved Places"/>
-
-              {/* Search Bar */}
+              <Header />
+            </header>
+            <body>
+             {/* Search Bar */}
               <input
                 type="text"
                 placeholder="Search City or State"
@@ -79,7 +66,14 @@ function App() {
               ) : (
                 ""
               )}
-            </header>
+              <Search />
+              <Spots />
+              <Spots title = 'Your Previously Viewed Spots' />
+              <Account title="Your Personal Information" />
+              <Account title="Your Saved Places" />
+
+
+            </body>
           </div>
         </Route>
         {/* User Login */}
@@ -102,22 +96,9 @@ function App() {
         <Route path="/" exact>
           <div className="App">
             <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <p>
-                Starting point for our Database II project
-              </p>
-
-              <Header user="Bob"/>
-              <Spots/>
-              <Spots title = 'Your Previously Viewed Spots'/>
-              <Search />
-              <Account title="Your Personal Information"/>
-              <Account title="Your Saved Places"/>
-              <div className="forms">
-                <Login />
-                <Register />
-              </div>
-
+              <Header />
+            </header>
+            <body>
               {/* Search Bar */}
               <input
                 type="text"
@@ -141,7 +122,9 @@ function App() {
               ) : (
                 ""
               )}
-            </header>
+              <Search />
+              <Spots/>
+            </body>
           </div>
         </Route>
         {/* User Login */}

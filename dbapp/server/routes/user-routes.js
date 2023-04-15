@@ -18,4 +18,7 @@ router.post('/register',
 // The /login page.
 router.post('/login', userControllers.login);
 
+// Retrieve user object.
+router.get('/user/:uid', userControllers.getUserById);
+
 module.exports = router;

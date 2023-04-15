@@ -1,4 +1,5 @@
-import Location from './Location'
+import Location from '../../components/Location'
+import './Spots.css';
 
 //displays list of locations together
 function Spots({title}) {
@@ -7,8 +8,8 @@ function Spots({title}) {
         <h2>{title}</h2>
         <div className = 'spots'>
             <Location location = "New York" temp = {47} />
-            {/* below rely on defauly props */}
-            <Location /> 
+            {/* below rely on default props */}
+            <Location />
             <Location />
             <Location />
             <Location />
@@ -22,4 +23,4 @@ Spots.defaultProps = {
 }
 
 
-export default Spots
+export default Spots;
