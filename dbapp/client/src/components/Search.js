@@ -1,13 +1,14 @@
 import Button from './Button'
+import './Search.css';
 
 function Search() {
     const searchClick = () => {
         console.log("Search Clicked")
     }
-    
+
   return (
     <div className = 'search'>
-        <label forHtml = "search">Search for weather in specific locations:</label>
+        <label htmlFor = "search">Search for weather in specific locations:</label>
         <br></br>
         <input type="search" id = "search" name = "q"></input>
         <Button color = 'blue' text = 'Search' onClick={searchClick}/>
@@ -15,4 +16,4 @@ function Search() {
   )
 }
 
-export default Search
+export default Search;

@@ -1,7 +1,9 @@
+import './btn.css';
+
 function Button({color, text, onClick}) {
 
   return (
-    <button 
+    <button
     onClick = {onClick}
     style= {{backgroundColor: color}}
     className = 'btn'>

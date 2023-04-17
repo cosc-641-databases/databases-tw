@@ -1,0 +1,24 @@
+.subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.subheader h3 {
+  margin-left: 17px;
+  font-size: 1.2em;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.subheader p {
+  margin-right: 2em;
+  font-style: italic;
+}
+
+.welcomeUser {
+  margin-right: 2em;
+  font-weight: 700;
+  font-style: italic;
+}

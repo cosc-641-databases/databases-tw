@@ -1,0 +1,13 @@
+.location {
+  display: inline-block;
+  background-color: #2a2a72;
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+  color: #fff;
+  border: 10px;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 60px;
+  font-family: inherit;
+}

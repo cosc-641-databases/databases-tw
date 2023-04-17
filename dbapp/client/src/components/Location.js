@@ -1,4 +1,4 @@
-
+import './Location.css';
 //conponent used as cards for each location being displayed within the app
 function Location({location, temp}) {
 
