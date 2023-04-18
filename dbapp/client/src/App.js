@@ -43,7 +43,6 @@ function App() {
               <Header />
             </header>
             <body>
-             {/* Search Bar */}
               <input
                 type="text"
                 placeholder="Search City or State"
