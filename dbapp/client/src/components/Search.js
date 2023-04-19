@@ -29,22 +29,20 @@ function Search() {
       });
   };
 
+  const savePressed = () => {
+    //add current location information as a saved location for this user
+    //will need current user's username
+  }
+
   return (
 
-    <div>
-    {/* <div className = 'search'>
-        <label htmlFor = "search">Search for weather in specific locations:</label>
-        <br></br>
-        <input type="search" id = "search" name = "q"></input>
-        <Button color = 'blue' text = 'Search'/>
-    </div> */}
+  <div>
 
     <input
     type="text"
     placeholder="Search City or State"
     onChange={(e) => setSearch(e.target.value)}
     />
-    <button onClick={searchPressed}>Search</button>
     <Button onClick={searchPressed}>SEARCH</Button>
 
     {typeof weather.main !== "undefined" ? (
@@ -58,6 +56,11 @@ function Search() {
       {/* Forecast */}
       <p>{weather.weather[0].main}</p>
       <p>{weather.weather[0].description}</p>
+      {/* If token object is set, a valid user is logged in. */}
+      if (token) {
+        //allow user to save the location 
+        (<Button onClick={savePressed}>SAVE LOCATION</Button>)
+      }
     </div>
     ) : (
     ""

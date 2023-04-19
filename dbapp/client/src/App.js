@@ -43,28 +43,6 @@ function App() {
               <Header />
             </header>
             <body>
-              <input
-                type="text"
-                placeholder="Search City or State"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button onClick={searchPressed}>Search</button>
-
-              {typeof weather.main !== "undefined" ? (
-                <div>
-                  {/* Location */}
-                  <p>{weather.name}</p>
-
-                  {/* Temperature */}
-                  <p>{weather.main.temp} °F</p>
-
-                  {/* Forecast */}
-                  <p>{weather.weather[0].main}</p>
-                  <p>{weather.weather[0].description}</p>
-                </div>
-              ) : (
-                ""
-              )}
               <Search />
               <Spots />
               <Spots title = 'Your Previously Viewed Spots' />
@@ -98,29 +76,6 @@ function App() {
               <Header />
             </header>
             <body>
-              {/* Search Bar */}
-              <input
-                type="text"
-                placeholder="Search City or State"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button onClick={searchPressed}>Search</button>
-
-              {typeof weather.main !== "undefined" ? (
-                <div>
-                  {/* Location */}
-                  <p>{weather.name}</p>
-
-                  {/* Temperature */}
-                  <p>{weather.main.temp} °F</p>
-
-                  {/* Forecast */}
-                  <p>{weather.weather[0].main}</p>
-                  <p>{weather.weather[0].description}</p>
-                </div>
-              ) : (
-                ""
-              )}
               <Search />
               <Spots/>
             </body>
