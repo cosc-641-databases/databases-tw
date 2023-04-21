@@ -1,17 +1,20 @@
 import './Location.css';
-//conponent used as cards for each location being displayed within the app
-function Location({location, temp}) {
-
+// Component used as cards for each location being displayed within the app.
+function Location({location, icon, temp, desc}) {
+  const srcUrl = `http://openweathermap.org/img/w/${icon}.png`
   return (
-    <div className = 'location'>{location}: {temp}°</div>
+    <div className='location'>{location}: <br />
+      <img id="wicon" src={srcUrl} alt="Weather icon"></img> {temp} °F <br />
+      <p className='locDesc'>{desc}</p>
+    </div>
   )
+}
 
-  }
+Location.defaultProps = {
+  location: 'Paris',
+  icon: '01d',
+  temp: '50',
+  desc: 'clear sky'
+}
 
-  Location.defaultProps = {
-    location: 'Paris',
-    temp: '50'
-  }
-
-
-export default Location
+export default Location;
