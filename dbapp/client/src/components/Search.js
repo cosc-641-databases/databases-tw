@@ -21,12 +21,14 @@ function Search() {
 
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState({});
+  const [save, setSave] = useState(false);
 
   const searchPressed = () => {
     fetch(`${api.base}weather?q=${search}&units=imperial&APPID=${api.key}`)
       .then((res) => res.json())
       .then((result) => {
         setWeather(result);
+        setSave(true);
       });
   };
 
@@ -75,7 +77,7 @@ function Search() {
     ) : (
     ""
     )}
-    {auth.isLoggedIn && (
+    {save && (
       //allow user to save the location
       (<Button onClick={savePressed}>SAVE LOCATION</Button>)
     )}
