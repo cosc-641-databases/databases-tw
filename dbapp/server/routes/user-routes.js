@@ -21,4 +21,7 @@ router.post('/login', userControllers.login);
 // Retrieve user object.
 router.get('/user/:uid', userControllers.getUserById);
 
+// User account settings dashboard.
+router.post('/update/:uid', userControllers.updateUser);
+
 module.exports = router;

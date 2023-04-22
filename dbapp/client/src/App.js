@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './shared/components/Header';
 import Spots from './shared/components/Spots';
@@ -7,27 +7,12 @@ import Search from './components/Search';
 import Account from './components/Account';
 import LoginPage from './user/pages/LoginPage';
 import RegisterPage from './user/pages/RegisterPage';
+import SettingsPage from './user/pages/SettingsPage';
 import { AuthContext } from './shared/utils/auth-context';
 import { useAuth } from './shared/utils/auth-hook';
 
-const api = {
-    key: process.env.REACT_APP_OPENWEATHER_API_KEY,
-    base: "https://api.openweathermap.org/data/2.5/"
-  };
-
 function App() {
   const { token, login, logout, userId } = useAuth();
-
-  const [search, setSearch] = useState("");
-  const [weather, setWeather] = useState({});
-
-  const searchPressed = () => {
-    fetch(`${api.base}weather?q=${search}&units=imperial&APPID=${api.key}`)
-      .then((res) => res.json())
-      .then((result) => {
-        setWeather(result);
-      });
-  };
 
   let routes;
 
@@ -42,15 +27,13 @@ function App() {
             <header className="App-header">
               <Header />
             </header>
-            <body>
+            <div>
               <Search />
               <Spots />
-              <Spots title = 'Your Previously Viewed Spots' />
+              <Spots title="Your Previously Viewed Spots" />
               <Account title="Your Personal Information" />
               <Account title="Your Saved Places" />
-
-
-            </body>
+            </div>
           </div>
         </Route>
         {/* User Login */}
@@ -60,6 +43,10 @@ function App() {
         {/* User Registration */}
         <Route path="/register" exact>
           <RegisterPage />
+        </Route>
+        {/* User dashboard only available if user is authenticated. */}
+        <Route path="/settings">
+          <SettingsPage />
         </Route>
         {/* Redirect to homepage on 404 */}
         <Redirect to="/" />
@@ -75,10 +62,10 @@ function App() {
             <header className="App-header">
               <Header />
             </header>
-            <body>
+            <div>
               <Search />
               <Spots/>
-            </body>
+            </div>
           </div>
         </Route>
         {/* User Login */}
@@ -89,8 +76,6 @@ function App() {
         <Route path="/register" exact>
           <RegisterPage />
         </Route>
-        {/* Redirect to homepage on 404 */}
-        <Redirect to="/" />
       </Switch>
     );
   }

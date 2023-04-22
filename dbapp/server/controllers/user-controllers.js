@@ -206,12 +206,13 @@ const login = async (req, res, next) => {
 
 }; // End login().
 
-////////////////////////////
-// HANDLE USER RETRIEVAL. //
-////////////////////////////
+/////////////////////////////////
+// HANDLE USER OBJ. RETRIEVAL. //
+/////////////////////////////////
 const getUserById = async (req, res, next) => {
   let userObj;
   try {
+    // MongoDB findOne() command via Mongoose.
     // Exclude password from results.
     userObj = await User.findOne({ _id: req.params.uid }, '-password');
   } catch (err) {
@@ -224,6 +225,52 @@ const getUserById = async (req, res, next) => {
   res.json(userObj);
 };
 
+/////////////////////////
+// HANDLE USER UPDATE. //
+/////////////////////////
+const updateUser = async (req, res, next) => {
+  let values = req.body;
+  // Create new object and only store values that have changed.
+  let newVals = new Object();
+  // If either name value changed, update name object in User model.
+  if (values.origFName !== values.fname || values.origLName !== values.lname) {
+    newVals.name = {
+      fname: (values.origFName !== values.fname) ? values.fname : values.origFName,
+      lname: (values.origLName !== values.lname) ? values.lname : values.origLName
+    }
+  }
+  // If either address component changed, update Lat/Lon coordinates with new.
+  if (values.origLoc !== values.city || values.origCountry !== values.country) {
+    const address = values.city + ',' + values.country;
+    try {
+      let coords = await getCoordsFromAddress(address);
+      let location = {
+        lat: coords.lat ?? '',
+        lon: coords.lon ?? ''
+      }
+      newVals.location = location;
+    } catch(err) {
+      console.log(err);
+      return next(err);
+    }
+  }
+  // Compare original values with new values. If different, update them.
+  try {
+    // MongoDB update command via Mongoose.
+    await User.updateOne({ _id: req.params.uid }, newVals);
+  } catch (err) {
+    const error = new HttpError(
+      'Could not update user.',
+      500
+    );
+    return next(error);
+  }
+  // Return a 200 success code.
+  res.status(200).json();
+
+};
+
 exports.register = register;
 exports.login = login;
 exports.getUserById = getUserById;
+exports.updateUser = updateUser;

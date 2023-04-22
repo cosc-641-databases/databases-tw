@@ -20,7 +20,7 @@ const Header = () => {
                 {auth.isLoggedIn && (
                 <div className='header'>
                     <Button href="/">HOME</Button>
-                    <Button inverse href={`/${auth.userId}/dashboard`}>DASHBOARD</Button>
+                    <Button inverse href={`/settings`}>SETTINGS</Button>
                     <Button inverse onClick={ auth.logout }>LOGOUT</Button>
                 </div>
                 )}
