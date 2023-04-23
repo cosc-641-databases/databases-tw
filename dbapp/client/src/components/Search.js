@@ -2,17 +2,12 @@ import './Search.css';
 import React, { useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../shared/utils/auth-context';
-import { useAuth } from '../shared/utils/auth-hook';
 import Button from '../shared/components/Button';
 import Location from './Location';
 import axios from 'axios';
 
 function Search() {
-  const { token, login, logout, userId } = useAuth();
-
-  // Use authentication token to get userId.
   const auth = useContext(AuthContext);
-
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState({});
   const [save, setSave] = useState(false);
@@ -44,7 +39,6 @@ function Search() {
             setWeather(data);
             setSave(true);
           }
-
         });
       } catch(err) {
         console.log("Could not complete request.");
@@ -52,6 +46,7 @@ function Search() {
     }
   };
 
+  // Handler for when the SAVE LOCATION button is pressed.
   const savePressed = async (event) => {
     event.preventDefault();
     let data;
@@ -70,11 +65,7 @@ function Search() {
         )
         .then(async (res) => {
           data = await res.data;
-          if (data.status === 201) {
-            // Force window refresh to view location in "Saved Locations"
-            // container on main page.
-            window.location.reload();
-          }
+          window.location.reload();
         });
       } catch(err) {
         console.log("Could not complete request.", err);

@@ -35,15 +35,15 @@ const SavedSpots = () => {
             lon={loc.location.lon}
           />
         </div>
-      )
-    })
+      );
+    });
   }
 
   return (
     <div className="box">
       <h2>Your Saved Locations</h2>
       <div className="savedSpots">
-        {display}
+        {display.reverse()}
       </div>
     </div>
   );
