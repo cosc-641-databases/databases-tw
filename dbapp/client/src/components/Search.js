@@ -5,13 +5,7 @@ import { AuthContext } from '../shared/utils/auth-context';
 import { useAuth } from '../shared/utils/auth-hook';
 import Button from '../shared/components/Button';
 import Location from './Location';
-
-const api = {
-  key: process.env.REACT_APP_OPENWEATHER_API_KEY,
-  base: "https://api.openweathermap.org/data/2.5/"
-};
-
-
+import axios from 'axios';
 
 function Search() {
   const { token, login, logout, userId } = useAuth();
@@ -22,51 +16,86 @@ function Search() {
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState({});
   const [save, setSave] = useState(false);
-
-  const searchPressed = () => {
-    fetch(`${api.base}weather?q=${search}&units=imperial&APPID=${api.key}`)
-      .then((res) => res.json())
-      .then((result) => {
-        setWeather(result);
-        setSave(true);
-      });
+  const axiosConfigs = {
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'Token',
+      "Access-Control-Allow-Origin": "*"
+    }
   };
 
-  // ORIGINAL CODE BY D.BATTLE.
-  // <div>
-  //     {/* Location */}
-  //     <p>{weather.name}</p>
+  const searchPressed = async (event) => {
+    event.preventDefault();
+    let data;
+    if (search !== '') {
+      try {
+        // Moved data fetch into server to prevent API key exposure
+        // upon bad/malformed location request.
+        await axios.post(
+          'http://localhost:5000/search',
+          JSON.stringify({
+            search: search
+          }),
+          axiosConfigs
+        )
+        .then((res) => {
+          data = res.data;
+          if (data.cod !== "404") {
+            setWeather(data);
+            setSave(true);
+          }
 
-  //     {/* Temperature */}
-  //     <p>{weather.main.temp} °F</p>
+        });
+      } catch(err) {
+        console.log("Could not complete request.");
+      }
+    }
+  };
 
-  //     {/* Forecast */}
-  //     <p>{weather.weather[0].main}</p>
-  //     <p>{weather.weather[0].description}</p>
-
-  //     {/* If token object is set, a valid user is logged in. */}
-  //     {auth.isLoggedIn && (
-  //       //allow user to save the location
-  //       (<Button onClick={savePressed}>SAVE LOCATION</Button>)
-  //     )}
-  //   </div>
-
-  const savePressed = () => {
-    //add current location information as a saved location for this user
-    //will need current user's username
+  const savePressed = async (event) => {
+    event.preventDefault();
+    let data;
+    // Add currently searched location to Saved Locations in MongoDB.
+    if (weather.cod === 200) {
+      try {
+        await axios.post(
+          'http://localhost:5000/saveLoc',
+          JSON.stringify({
+            uID: auth.userId,
+            name: weather.name,
+            lat: weather.coord.lat,
+            lon: weather.coord.lon
+          }),
+          axiosConfigs
+        )
+        .then(async (res) => {
+          data = await res.data;
+          if (data.status === 201) {
+            // Force window refresh to view location in "Saved Locations"
+            // container on main page.
+            window.location.reload();
+          }
+        });
+      } catch(err) {
+        console.log("Could not complete request.", err);
+      }
+    }
   }
 
   return (
-
-  <div>
+  <div className="search">
     <input
       className="searchBox"
       type="text"
-      placeholder="Search City or State"
+      placeholder="Search by City"
       onChange={(e) => setSearch(e.target.value)}
     />
-    <Button onClick={searchPressed}>SEARCH</Button>
-
+    <Button onClick={ searchPressed }>SEARCH</Button>
+    {save && search && auth.isLoggedIn && (
+      //allow user to save the location
+      (<Button onClick={ savePressed }>SAVE LOCATION</Button>)
+    )}
+      <hr />
     {typeof weather.main !== "undefined" ? (
       <Location
         location={weather.name}
@@ -77,12 +106,9 @@ function Search() {
     ) : (
     ""
     )}
-    {save && (
-      //allow user to save the location
-      (<Button onClick={savePressed}>SAVE LOCATION</Button>)
-    )}
   </div>
-  )
+  );
+
 }
 
 export default Search;

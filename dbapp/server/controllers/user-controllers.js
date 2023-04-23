@@ -254,17 +254,22 @@ const updateUser = async (req, res, next) => {
       return next(err);
     }
   }
-  // Compare original values with new values. If different, update them.
-  try {
-    // MongoDB update command via Mongoose.
-    await User.updateOne({ _id: req.params.uid }, newVals);
-  } catch (err) {
-    const error = new HttpError(
-      'Could not update user.',
-      500
-    );
-    return next(error);
+  // If a change is detected, update values in MongoDB.
+  if (Object.keys(newVals).length > 0) {
+    try {
+      // MongoDB update command via Mongoose.
+      await User.updateOne({ _id: req.params.uid }, newVals);
+    } catch (err) {
+      const error = new HttpError(
+        'Could not update user.',
+        500
+      );
+      return next(error);
+    }
+  } else {
+    return next();
   }
+
   // Return a 200 success code.
   res.status(200).json();
 

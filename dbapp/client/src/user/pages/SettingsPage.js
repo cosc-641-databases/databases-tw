@@ -3,6 +3,8 @@ import { AuthContext } from '../../shared/utils/auth-context';
 import Header from '../../shared/components/Header';
 import Card from '../../shared/components/Card';
 import Button from '../../shared/components/Button';
+import SavedSpots from '../../shared/components/SavedSpots';
+// import Spots from '../../shared/components/Spots';
 import './SettingsPage.css';
 import axios from 'axios';
 
@@ -97,7 +99,7 @@ const SettingsPage = () => {
   }
 
   return (
-    <div>
+    <div className="wrapper">
       <Header />
       <Card className="settings">
         <h3>User Account Info<br /><br />
@@ -163,7 +165,7 @@ const SettingsPage = () => {
         </form>
       </Card>
       <Card className="settings">
-
+        <SavedSpots />
       </Card>
     </div>
   );

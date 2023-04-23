@@ -1,6 +1,6 @@
 import Button from './Button'
 
-//this component is used to show a user their account info and gives them the ability to edit
+// Used to show a user their account info.
 function Account({title}) {
   return (
     <div className = "box">
@@ -16,4 +16,4 @@ Account.defaultProps = {
 
 
 
-export default Account
+export default Account;

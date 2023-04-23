@@ -1,4 +1,9 @@
-.search {
-  font-size: 60px;
-  font-family: inherit;
+.search hr {
+  margin: 5px 0;
+}
+
+.searchBox {
+  font-size: 1.5em;
+  padding: 19px 7px 20px 7px;
+  width: 50%;
 }

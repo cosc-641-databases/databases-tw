@@ -1,9 +1,15 @@
+.wrapper {
+  width: 75%;
+  display: block;
+  margin: 0 auto;
+}
+
 .settings {
-  width: 90%;
-  max-width: 50em;
+  width: 75%;
   margin: 4em auto;
   text-align: left;
   display: flex;
+  justify-content: space-evenly;
 }
 
 .settings form {
@@ -21,8 +27,7 @@
 
 .settings fieldset {
   padding: 1.2em 1em;
-  max-width: 17em;
-  margin: 1em;
+  margin: 1.5em;
 }
 
 .settings .button--default {

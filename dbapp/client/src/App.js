@@ -3,8 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './shared/components/Header';
 import Spots from './shared/components/Spots';
+import SavedSpots from './shared/components/SavedSpots';
 import Search from './components/Search';
-import Account from './components/Account';
 import LoginPage from './user/pages/LoginPage';
 import RegisterPage from './user/pages/RegisterPage';
 import SettingsPage from './user/pages/SettingsPage';
@@ -29,10 +29,8 @@ function App() {
             </header>
             <div>
               <Search />
+              <SavedSpots />
               <Spots />
-              <Spots title="Your Previously Viewed Spots" />
-              <Account title="Your Personal Information" />
-              <Account title="Your Saved Places" />
             </div>
           </div>
         </Route>

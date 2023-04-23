@@ -8,8 +8,17 @@ require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
+// NoSQL Injection prevention using content-filter package.
+const filter = require('content-filter');
+// Special characters to filter out of HTTP req.body and URL params.
+const blackList = ['$','{','}','&&','||'];
+const filterOptions = {
+  urlBlackList: blackList,
+  bodyBlackList: blackList
+};
+app.use(filter(filterOptions));
 
-// HTTP headers management for CORS.
+// HTTP headers management.
 app.use((req, res, next) => {
   // Allow access from any origin (CORS).
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,13 +29,15 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   // Specify available methods.
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
   next();
 });
 
-// Register user routes on base path.
+// Register routes on server's base path.
 const userRoutes = require('./routes/user-routes');
 app.use('/', userRoutes);
+const locRoutes = require('./routes/location-routes');
+app.use('/', locRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);

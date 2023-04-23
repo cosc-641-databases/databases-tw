@@ -1,20 +1,22 @@
 .location {
-  display: inline-block;
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
   background-color: #2a2a72;
   background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
   color: #fff;
   border: 10px;
-  padding: 10px 20px;
-  margin: 5px;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 2em;
-  font-family: inherit;
-  width: 25%;
+  font-size: 1.5em;
+  padding: 10px 20px;
+  margin: 5px;
+  flex-grow: 1;
 }
 
 #wicon {
-  width: 1.5em;
+  margin-bottom: -16px;
 }
 
 .locDesc {
@@ -27,4 +29,8 @@
   margin-right: 10px;
   padding: 0 0 0 4px;
   font-size: 0.9em;
+}
+
+.savedSpots {
+  display: flex;
 }
