@@ -5,6 +5,7 @@ import Header from './shared/components/Header';
 import Spots from './shared/components/Spots';
 import SavedSpots from './shared/components/SavedSpots';
 import Search from './components/Search';
+import HomeWeather from './shared/components/HomeWeather';
 import LoginPage from './user/pages/LoginPage';
 import RegisterPage from './user/pages/RegisterPage';
 import SettingsPage from './user/pages/SettingsPage';
@@ -29,6 +30,7 @@ function App() {
             </header>
             <div>
               <Search />
+              <HomeWeather />
               <SavedSpots />
               <Spots />
             </div>

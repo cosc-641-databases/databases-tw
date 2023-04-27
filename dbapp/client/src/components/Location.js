@@ -45,19 +45,21 @@ function Location({location, icon, temp, desc, lat, lon}) {
   const vars = {}
   if (weather !== null) {
     vars.loc = weather.name;
+    vars.country = weather.sys.country;
     vars.temp = weather.main.temp;
     vars.desc = weather.weather[0].description;
     vars.icon = weather.weather[0].icon;
     vars.srcUrl = `http://openweathermap.org/img/w/${vars.icon}.png`
   } else {
     vars.loc = location;
+    vars.country = '';
     vars.temp = temp;
     vars.desc = desc;
     vars.srcUrl = `http://openweathermap.org/img/w/${icon}.png`
   }
 
   return (
-    <div className='location'>{vars.loc}: <br />
+    <div className='location'>{vars.loc}, {vars.country}: <br />
       {vars.temp} °F <br />
       <p className='locDesc'><img id="wicon" src={vars.srcUrl} alt="Weather icon"></img> {vars.desc}</p>
     </div>
@@ -65,10 +67,10 @@ function Location({location, icon, temp, desc, lat, lon}) {
 }
 
 Location.defaultProps = {
-  location: 'Paris',
+  location: '',
   icon: '01d',
-  temp: '50',
-  desc: 'clear sky',
+  temp: '',
+  desc: '',
   lat: null,
   lon: null
 }

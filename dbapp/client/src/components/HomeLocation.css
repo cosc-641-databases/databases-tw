@@ -1,0 +1,21 @@
+table {
+  display: default;
+  margin: 0 auto;
+  width: 70%;
+  text-align: center;
+}
+
+table > tbody > tr > td:first-child {
+  text-align: right;
+  font-weight: 700;
+}
+
+table thead tr:nth-child(2) {
+  font-size: 1.75em;
+  color: #2a2a72;
+}
+
+tr td.updateBtn {
+  padding-top: 2em;
+  text-align: center!important;
+}
